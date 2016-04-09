@@ -4,7 +4,7 @@ import commands._
 import constants.CommandPatterns
 import exceptions.CommandParserException
 
-object CommandParser {
+class CommandParser {
   def parse(line: String): Command = line.trim match {
     case CommandPatterns.Quit()                         => Quit
     case CommandPatterns.CreateCanvas(height, width)    => CreateCanvas(height.toInt, width.toInt)
