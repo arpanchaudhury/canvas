@@ -1,7 +1,7 @@
 package utils
 
 import commands._
-import exceptions.CommandParserException
+import exceptions.CommandParseException
 import org.specs2.mutable.Specification
 
 class CommandParserSpec extends Specification {
@@ -15,7 +15,7 @@ class CommandParserSpec extends Specification {
     }
 
     "should throw exception for malformed Quit command" >> {
-      {commandParser.parse("a q s")} must throwA[CommandParserException]
+      commandParser.parse("a q s") must throwA[CommandParseException]
     }
 
     "should parse CreateCanvas command" >> {
@@ -26,15 +26,15 @@ class CommandParserSpec extends Specification {
 
     "should throw exception for malformed CanvasCreate command" >> {
       "case 1" >> {
-        {commandParser.parse("c21 34")} must throwA[CommandParserException]
+        commandParser.parse("c21 34") must throwA[CommandParseException]
       }
 
       "case 2" >> {
-        {commandParser.parse("ca 21 34")} must throwA[CommandParserException]
+        commandParser.parse("ca 21 34") must throwA[CommandParseException]
       }
 
       "case 3" >> {
-        {commandParser.parse("C 21a 34")} must throwA[CommandParserException]
+        commandParser.parse("C 21a 34") must throwA[CommandParseException]
       }
     }
 
@@ -46,15 +46,15 @@ class CommandParserSpec extends Specification {
 
     "should throw exception for malformed DrawLine command" >> {
       "case 1" >> {
-        {commandParser.parse("l 12 42 21")} must throwA[CommandParserException]
+        commandParser.parse("l 12 42 21") must throwA[CommandParseException]
       }
 
       "case 2" >> {
-        {commandParser.parse("La 21 34 32 23")} must throwA[CommandParserException]
+        commandParser.parse("La 21 34 32 23") must throwA[CommandParseException]
       }
 
       "case 3" >> {
-        {commandParser.parse("L 21a 34 13 31")} must throwA[CommandParserException]
+        commandParser.parse("L 21a 34 13 31") must throwA[CommandParseException]
       }
     }
 
@@ -66,15 +66,15 @@ class CommandParserSpec extends Specification {
 
     "should throw exception for malformed DrawRectangle command" >> {
       "case 1" >> {
-        {commandParser.parse("r 12 42 21")} must throwA[CommandParserException]
+        commandParser.parse("r 12 42 21") must throwA[CommandParseException]
       }
 
       "case 2" >> {
-        {commandParser.parse("Ra 21 34 32 23")} must throwA[CommandParserException]
+        commandParser.parse("Ra 21 34 32 23") must throwA[CommandParseException]
       }
 
       "case 3" >> {
-        {commandParser.parse("R 21a 34 13 31")} must throwA[CommandParserException]
+        commandParser.parse("R 21a 34 13 31") must throwA[CommandParseException]
       }
     }
 
@@ -86,15 +86,15 @@ class CommandParserSpec extends Specification {
 
     "should throw exception for malformed BucketFill command" >> {
       "case 1" >> {
-        {commandParser.parse("b 12 42")} must throwA[CommandParserException]
+        commandParser.parse("b 12 42") must throwA[CommandParseException]
       }
 
       "case 2" >> {
-        {commandParser.parse("Ba 21 34 *")} must throwA[CommandParserException]
+        commandParser.parse("Ba 21 34 *") must throwA[CommandParseException]
       }
 
       "case 3" >> {
-        {commandParser.parse("B 21 34 *a")} must throwA[CommandParserException]
+        commandParser.parse("B 21 34 *a") must throwA[CommandParseException]
       }
     }
   }

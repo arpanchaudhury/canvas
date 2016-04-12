@@ -2,12 +2,13 @@ package factories
 
 import io.CanvasIO
 import services.CanvasService
-import utils.CommandParser
+import utils.{CommandParser, CommandValidator}
 
 class CanvasServiceFactory {
   def getService = {
     val parser = new CommandParser
-    val canvasIO = new CanvasIO(parser)
+    val validator = new CommandValidator
+    val canvasIO = new CanvasIO(parser, validator)
     new CanvasService(canvasIO)
   }
 }

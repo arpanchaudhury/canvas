@@ -1,17 +1,16 @@
 package services
 
 import commands.{Command, CreateCanvas, Quit}
-import constants.{ErrorMessages, UserMessages}
-import exceptions.CommandParserException
+import constants.ErrorMessages
+import exceptions.{CommandParseException, InvalidCommandException}
 import io.CanvasIO
-import utils.CommandParser
 
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success}
 
 class CanvasService(canvasIO: CanvasIO) {
 
   def commandLoop(accumulator: List[Command] = List.empty[Command]): List[Command] = {
-    canvasIO.getCommand match {
+    canvasIO.getCommand(accumulator) match {
 
       case Success(Quit)                                                => accumulator :+ Quit
 
@@ -25,7 +24,10 @@ class CanvasService(canvasIO: CanvasIO) {
 
       case Success(command: Command)                                    => commandLoop(accumulator :+ command)
 
-      case Failure(exception: CommandParserException)                   => println(ErrorMessages.ParseCommand(exception))
+      case Failure(exception: CommandParseException)                    => println(ErrorMessages.ParseCommand(exception))
+                                                                           commandLoop(accumulator)
+
+      case Failure(exception: InvalidCommandException)                  => println(ErrorMessages.InvalidCommand(exception))
                                                                            commandLoop(accumulator)
 
       case Failure(exception)                                           => println(ErrorMessages.Other(exception))
