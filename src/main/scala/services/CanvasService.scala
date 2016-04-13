@@ -51,6 +51,7 @@ class CanvasService(canvasIO: CanvasIO) {
   private def drawEntity(entity: Entity)(canvas: Canvas) = entity match {
     case line: Line           => canvas.drawLine(line)
     case rectangle: Rectangle => canvas.drawRectangle(rectangle)
+    case areaPaint: AreaPaint => canvas.paintArea(areaPaint)
     case other                => canvas
   }
 
@@ -75,6 +76,7 @@ class CanvasService(canvasIO: CanvasIO) {
                                                Line(Point(point1.x, point2.y), point1)
                                              )
                                            )
+    case BucketFill(x, y, color)        => Some(AreaPaint(Point(x, y), color))
     case otherwise                      => None
   }
 }

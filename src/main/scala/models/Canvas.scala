@@ -3,6 +3,7 @@ package models
 import constants.CanvasConstants
 
 abstract case class Canvas private[Canvas] (height: Int, width: Int) extends Entity {
+
   private val underlying = Array.ofDim[Char](height + 2, width + 2)
 
   def mkString = underlying.map(row => row.mkString(" ")).mkString("\n")
@@ -29,6 +30,19 @@ abstract case class Canvas private[Canvas] (height: Int, width: Int) extends Ent
     drawLine(rectangle.bottom)
     drawLine(rectangle.left)
     this
+  }
+
+  def paintArea(areaPaint: AreaPaint) = {
+    paintAreaHelper(areaPaint.point, areaPaint.color)
+    this
+  }
+
+  private def paintAreaHelper(point: Point, color: Char): Unit = {
+    if(point.isInsideCanvas(height, width) && underlying(point.y)(point.x) == ' ') {
+      underlying(point.y)(point.x) = color
+      point.neighbours.foreach(paintAreaHelper(_, color))
+    }
+    else {}
   }
 }
 

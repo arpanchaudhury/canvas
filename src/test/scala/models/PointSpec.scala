@@ -17,5 +17,19 @@ class PointSpec extends Specification with Mockito {
       p2 < p3 mustEqual true
       p3 < p2 mustEqual false
     }
+
+    "should respond to is inside canvas queries" >> {
+      val p = Point(11, 17)
+
+      p.isInsideCanvas(20, 20) mustEqual true
+      p.isInsideCanvas(10, 10) mustEqual false
+    }
+
+    "should return all neighbours of itself" >> {
+      val p = Point(11, 17)
+
+      p.neighbours mustEqual Set(Point(10, 16), Point(11, 16), Point(12, 16), Point(10, 17),
+                                 Point(12, 17), Point(10, 18), Point(11, 18), Point(12, 18))
+    }
   }
 }

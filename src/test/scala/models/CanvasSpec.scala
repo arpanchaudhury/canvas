@@ -59,5 +59,38 @@ class CanvasSpec extends Specification with Mockito {
                                                    >|   * * *   |
                                                    >- - - - - - -""".stripMargin('>')
     }
+
+    "should paint a covered area in canvas" >> {
+      val canvas = Canvas(20, 20)
+      val rectangleOne = Rectangle(Line(Point(5, 1), Point(20, 1)), Line(Point(20, 1), Point(20, 10)))
+      val rectangleTwo = Rectangle(Line(Point(1, 6), Point(10, 6)), Line(Point(10, 6), Point(10, 17)))
+      val areaPaint = AreaPaint(Point(3, 12), '#')
+      val canvasWithRectangle = canvas.drawRectangle(rectangleOne)
+      val canvasWithRectangles = canvasWithRectangle.drawRectangle(rectangleTwo)
+      val canvasWithAreaPainted = canvasWithRectangles.paintArea(areaPaint)
+
+      canvasWithAreaPainted.mkString mustEqual    """- - - - - - - - - - - - - - - - - - - - - -
+                                                    >|         * * * * * * * * * * * * * * * * |
+                                                    >|         *                             * |
+                                                    >|         *                             * |
+                                                    >|         *                             * |
+                                                    >|         *                             * |
+                                                    >| * * * * * * * * * *                   * |
+                                                    >| * # # # *         *                   * |
+                                                    >| * # # # *         *                   * |
+                                                    >| * # # # *         *                   * |
+                                                    >| * # # # * * * * * * * * * * * * * * * * |
+                                                    >| * # # # # # # # # *                     |
+                                                    >| * # # # # # # # # *                     |
+                                                    >| * # # # # # # # # *                     |
+                                                    >| * # # # # # # # # *                     |
+                                                    >| * # # # # # # # # *                     |
+                                                    >| * # # # # # # # # *                     |
+                                                    >| * * * * * * * * * *                     |
+                                                    >|                                         |
+                                                    >|                                         |
+                                                    >|                                         |
+                                                    >- - - - - - - - - - - - - - - - - - - - - -""".stripMargin('>')
+    }
   }
 }
