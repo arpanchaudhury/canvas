@@ -19,5 +19,5 @@ class CanvasIO(commandParser: CommandParser, commandValidator: CommandValidator)
     }
   }
 
-  def printCanvas(canvas: Canvas) = println(canvas)
+  def printCanvas(canvas: Canvas) = println(canvas.mkString)
 }

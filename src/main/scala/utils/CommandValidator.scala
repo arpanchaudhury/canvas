@@ -28,6 +28,6 @@ class CommandValidator {
   }
 
   private def isInsideCanvas(point: Point, canvasHeight: Int, canvasWidth: Int) = {
-    (point.x >= 0 && point.x <= canvasWidth) && (point.y >= 0 && point.y <= canvasHeight)
+    (point.x > 0 && point.x <= canvasWidth) && (point.y > 0 && point.y <= canvasHeight)
   }
 }

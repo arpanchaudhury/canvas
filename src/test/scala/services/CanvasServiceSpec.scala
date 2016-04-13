@@ -87,5 +87,41 @@ class CanvasServiceSpec extends Specification with Mockito {
 
       canvasService.translate(commands) mustEqual entities
     }
+
+    "should draw translated entities inside canvas" >> {
+      val canvasIO = mock[CanvasIO]
+      val canvasService = new CanvasService(canvasIO)
+
+      val canvas = Canvas(20, 20)
+      val verticalLine = Line(Point(3, 3), Point(3, 9))
+      val horizontalLine = Line(Point(2, 9), Point(5, 9))
+      val rectangle = Rectangle(Line(Point(1, 1), Point(11, 1)), Line(Point(11, 1), Point(11, 15)))
+      val otherRectangle = Rectangle(Line(Point(5, 7), Point(8, 7)), Line(Point(8, 7), Point(8, 9)))
+
+      val entities = List(canvas, verticalLine, horizontalLine, rectangle, otherRectangle)
+
+      canvasService.drawCanvas(entities).mkString mustEqual """- - - - - - - - - - - - - - - - - - - - - -
+                                                              >| * * * * * * * * * * *                   |
+                                                              >| *                   *                   |
+                                                              >| *   *               *                   |
+                                                              >| *   *               *                   |
+                                                              >| *   *               *                   |
+                                                              >| *   *               *                   |
+                                                              >| *   *   * * * *     *                   |
+                                                              >| *   *   *     *     *                   |
+                                                              >| * * * * * * * *     *                   |
+                                                              >| *                   *                   |
+                                                              >| *                   *                   |
+                                                              >| *                   *                   |
+                                                              >| *                   *                   |
+                                                              >| *                   *                   |
+                                                              >| * * * * * * * * * * *                   |
+                                                              >|                                         |
+                                                              >|                                         |
+                                                              >|                                         |
+                                                              >|                                         |
+                                                              >|                                         |
+                                                              >- - - - - - - - - - - - - - - - - - - - - -""".stripMargin('>')
+    }
   }
 }

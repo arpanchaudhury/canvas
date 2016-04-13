@@ -1,5 +1,7 @@
 package models
 
+import constants.CanvasConstants
+
 abstract case class Canvas private[Canvas] (height: Int, width: Int) extends Entity {
   private val underlying = Array.ofDim[Char](height + 2, width + 2)
 
@@ -11,12 +13,12 @@ abstract case class Canvas private[Canvas] (height: Int, width: Int) extends Ent
         for {
           r <- line.start.y to line.end.y
           c = line.start.x
-        } underlying(r)(c) = '*'
+        } underlying(r)(c) = CanvasConstants.Pixel
       case l if l.isHorizontal  =>
         for {
           c <- line.start.x to line.end.x
           r = line.start.y
-        } underlying(r)(c) = '*'
+        } underlying(r)(c) = CanvasConstants.Pixel
     }
     this
   }
@@ -37,9 +39,9 @@ object Canvas {
       row    <- 0 until height  + 2
       column <- 0 until width + 2
     } {
-      if(row == 0 || row == height + 1)             canvas.underlying(row)(column) = '-'
-      else if(column == 0 || column == width + 1)   canvas.underlying(row)(column) = '|'
-      else                                          canvas.underlying(row)(column) = ' '
+      if(row == 0 || row == height + 1)             canvas.underlying(row)(column) = CanvasConstants.TopBorder
+      else if(column == 0 || column == width + 1)   canvas.underlying(row)(column) = CanvasConstants.SideBorder
+      else                                          canvas.underlying(row)(column) = CanvasConstants.Blank
     }
     canvas
   }

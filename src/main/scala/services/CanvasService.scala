@@ -15,7 +15,10 @@ class CanvasService(canvasIO: CanvasIO) {
 
       case Success(Quit)                                                => accumulator :+ Quit
 
-      case Success(command: CreateCanvas) if accumulator.isEmpty        => commandLoop(accumulator :+ command)
+      case Success(command: CreateCanvas) if accumulator.isEmpty        => val entities = translate(accumulator :+ command)
+                                                                           val canvasWithEntities = drawCanvas(entities)
+                                                                           canvasIO.printCanvas(canvasWithEntities)
+                                                                           commandLoop(accumulator :+ command)
 
       case Success(command: CreateCanvas)                               => println(ErrorMessages.MultipleCanvasCreation)
                                                                            commandLoop(accumulator)
@@ -23,7 +26,10 @@ class CanvasService(canvasIO: CanvasIO) {
       case Success(command: Command)      if accumulator.isEmpty        => println(ErrorMessages.CanvasNotCreated)
                                                                            commandLoop(accumulator)
 
-      case Success(command: Command)                                    => commandLoop(accumulator :+ command)
+      case Success(command: Command)                                    => val entities = translate(accumulator :+ command)
+                                                                           val canvasWithEntities = drawCanvas(entities)
+                                                                           canvasIO.printCanvas(canvasWithEntities)
+                                                                           commandLoop(accumulator :+ command)
 
       case Failure(exception: CommandParseException)                    => println(ErrorMessages.ParseCommand(exception))
                                                                            commandLoop(accumulator)
@@ -34,6 +40,18 @@ class CanvasService(canvasIO: CanvasIO) {
       case Failure(exception)                                           => println(ErrorMessages.Other(exception))
                                                                            sys.exit(1)
     }
+  }
+
+  def drawCanvas(entities: List[Entity]): Canvas = entities match {
+    case Nil                => null
+    case (c : Canvas) :: xs => entities.tail.foldLeft(c)((canvas, entity) => drawEntity(entity)(canvas))
+    case whatever           => null
+  }
+
+  private def drawEntity(entity: Entity)(canvas: Canvas) = entity match {
+    case line: Line           => canvas.drawLine(line)
+    case rectangle: Rectangle => canvas.drawRectangle(rectangle)
+    case other                => canvas
   }
 
   def translate(commands: List[Command]): List[Entity] = commands.map(command => translate(command)).filter(_.isDefined).map(_.get)

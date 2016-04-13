@@ -6,6 +6,7 @@ object CanvasClient extends App {
     val canvasServiceFactory = new CanvasServiceFactory
     val canvasService = canvasServiceFactory.getService
 
+    println(UserMessages.CanvasLogo)
     println(UserMessages.Welcome)
     canvasService.commandLoop()
     println(UserMessages.GoodBye)
