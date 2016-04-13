@@ -2,6 +2,7 @@ package io
 
 import commands.{Command, CreateCanvas}
 import constants.ErrorMessages
+import models.Canvas
 import utils.{CommandParser, CommandValidator}
 
 import scala.util.{Failure, Success, Try}
@@ -17,4 +18,6 @@ class CanvasIO(commandParser: CommandParser, commandValidator: CommandValidator)
       case unprecedented                   => Failure(sys.error(ErrorMessages.CanvasNotCreated))
     }
   }
+
+  def printCanvas(canvas: Canvas) = println(canvas)
 }

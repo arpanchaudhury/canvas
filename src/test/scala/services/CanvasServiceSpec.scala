@@ -3,11 +3,11 @@ package services
 import commands._
 import exceptions.{CommandParseException, InvalidCommandException}
 import io.CanvasIO
+import models.{Canvas, Line, Point, Rectangle}
 import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
 import scala.util.{Failure, Success}
-
 
 class CanvasServiceSpec extends Specification with Mockito {
   "Canvas Service" >> {
@@ -62,6 +62,30 @@ class CanvasServiceSpec extends Specification with Mockito {
         Failure(InvalidCommandException("Invalid Command Error")), Success(Quit))
 
       canvasService.commandLoop() mustEqual List(CreateCanvas(1, 1), Quit)
+    }
+
+    "should translate commands into entities" >> {
+      val canvasIO = mock[CanvasIO]
+      val canvasService = new CanvasService(canvasIO)
+
+      val drawCanvas = CreateCanvas(20, 20)
+      val drawVerticalLine = DrawLine(3, 3, 3, 9)
+      val drawHorizontalLine = DrawLine(5, 9, 2, 9)
+      val drawRectangle = DrawRectangle(1, 1, 11, 15)
+      val drawOtherRectangle = DrawRectangle(5, 7, 8, 9)
+      val quit = Quit
+
+      val commands = List(drawCanvas, drawVerticalLine, drawHorizontalLine, drawRectangle, drawOtherRectangle, quit)
+
+      val canvas = Canvas(20, 20)
+      val verticalLine = Line(Point(3, 3), Point(3, 9))
+      val horizontalLine = Line(Point(2, 9), Point(5, 9))
+      val rectangle = Rectangle(Line(Point(1, 1), Point(11, 1)), Line(Point(11, 1), Point(11, 15)))
+      val otherRectangle = Rectangle(Line(Point(5, 7), Point(8, 7)), Line(Point(8, 7), Point(8, 9)))
+
+      val entities = List(canvas, verticalLine, horizontalLine, rectangle, otherRectangle)
+
+      canvasService.translate(commands) mustEqual entities
     }
   }
 }
