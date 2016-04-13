@@ -2,7 +2,7 @@ package factories
 
 import io.CanvasIO
 import services.CanvasService
-import utils.{CommandParser, CommandTranslator, CommandValidator}
+import utils.{CanvasPainter, CommandParser, CommandTranslator, CommandValidator}
 
 class CanvasServiceFactory {
   def getService = {
@@ -10,6 +10,7 @@ class CanvasServiceFactory {
     val validator = new CommandValidator
     val canvasIO = new CanvasIO(parser, validator)
     val commandTranslator = new CommandTranslator
-    new CanvasService(canvasIO, commandTranslator)
+    val canvasPainter = new CanvasPainter
+    new CanvasService(canvasIO, commandTranslator, canvasPainter)
   }
 }

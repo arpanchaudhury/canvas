@@ -3,7 +3,7 @@ package utils
 import models._
 
 class CanvasPainter {
-  def drawCanvas(entities: List[Entity]): Canvas = entities match {
+  def paint(entities: List[Entity]): Canvas = entities match {
     case Nil                => null
     case (c : Canvas) :: xs => entities.tail.foldLeft(c)((canvas, entity) => drawEntity(entity)(canvas))
     case whatever           => null

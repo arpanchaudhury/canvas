@@ -6,7 +6,7 @@ import org.specs2.mutable.Specification
 
 class CommandValidatorSpec extends Specification {
 
-  "CommandValidator" >> {
+  "Command Validator" >> {
     val commandValidator = new CommandValidator
 
     "should return the command if line is horizontal or vertical and fits inside created canvas" >> {
