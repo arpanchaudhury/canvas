@@ -8,7 +8,7 @@ object CanvasClient extends App {
 
     println(UserMessages.CanvasLogo)
     println(UserMessages.Welcome)
-    canvasService.commandLoop()
+    canvasService.run()
     println(UserMessages.GoodBye)
   }
 }
