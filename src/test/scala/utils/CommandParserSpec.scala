@@ -97,5 +97,15 @@ class CommandParserSpec extends Specification {
         commandParser.parse("B 21 34 *a") must throwA[CommandParseException]
       }
     }
+
+    "should parse Undo command" >> {
+      commandParser.parse("U")      mustEqual Undo
+      commandParser.parse("u")      mustEqual Undo
+      commandParser.parse("   U ")  mustEqual Undo
+    }
+
+    "should throw exception for malformed Undo command" >> {
+      commandParser.parse("a u s") must throwA[CommandParseException]
+    }
   }
 }

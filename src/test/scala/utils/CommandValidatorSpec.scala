@@ -48,8 +48,10 @@ class CommandValidatorSpec extends Specification {
 
     "should return the other commands as-is" >> {
       val quit = Quit
+      val undo = Undo
       val createCanvas = CreateCanvas(200, 200)
       commandValidator.validate(quit, 100, 100)         mustEqual quit
+      commandValidator.validate(undo, 100, 100)         mustEqual undo
       commandValidator.validate(createCanvas, 100, 100) mustEqual createCanvas
     }
   }
